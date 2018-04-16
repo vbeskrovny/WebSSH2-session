@@ -23,4 +23,5 @@ Tested:
 - Chrome/Firefox
 
 
-Regards
+
+All the best!
