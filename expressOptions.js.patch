@@ -1,0 +1,11 @@
+--- ./expressOptions.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ expressOptions.js	2018-04-12 11:20:50.952769464 +0200
+@@ -7,5 +7,8 @@
+   redirect: false,
+   setHeaders: function (res, path, stat) {
+     res.set('x-timestamp', Date.now())
++    res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
++    res.set('Expires', '-1')
++    res.set('Pragma', 'no-cache')
+   }
+ }

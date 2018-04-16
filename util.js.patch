@@ -1,0 +1,140 @@
+--- ./util.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ util.js	2018-04-16 10:01:30.359920858 +0200
+@@ -15,10 +15,135 @@
+       : 'is blank'.underline.red.bold))
+     next()
+   } else {
+-    res.statusCode = 401
++
++
++//    res.statusCode = 401
++
++/*
+     debug('basicAuth credential request (401)')
+     res.setHeader('WWW-Authenticate', 'Basic realm="WebSSH"')
+-    res.end('Username and password required for web SSH service.')
++*/
++
++
++
++
++
++    if(!/^\/ssh\/host\/.+/.test(req.url)) {
++	console.log('Skip...')
++	next()
++    } else {
++
++
++
++    var req_host = req.url.split('/')[3];
++    var host = req_host
++    var user = '';
++    var pass = '';
++
++
++    //console.log(req.body.host);
++
++    //console.log(req.rawHeaders);
++    
++
++    console.log(req.url);
++
++
++
++    var session_cookie = req.cookies['session_' + host];
++    var session_default = req.cookies['session_default'];
++
++
++    if(/\?logout$/.test(req.url)) {
++
++	host = host.split('?')[0];
++
++	res.cookie('session_' + host, '');
++	res.cookie('session_default', '');
++
++	
++	req.session.username = null;
++	req.session.userpassword = null;
++
++
++	res.redirect(req.url.split('?')[0]);
++
++	return;
++	
++    }
++
++
++
++    if ((session_default != '' && session_default != undefined) && (session_cookie == '' || session_cookie == undefined)) {
++	session_cookie = session_default;
++    }
++
++
++
++    if (session_cookie != '' && session_cookie != undefined) {
++
++	
++	user = Buffer.from(session_cookie.split(':')[0], 'base64');
++	pass = Buffer.from(session_cookie.split(':')[1], 'base64');
++	
++	console.log('Session user: ->' + user + '<-');
++	console.log('Session pass: ->' + pass + '<-');
++
++	req.session.username = user.toString();
++	req.session.userpassword = pass.toString();
++
++	next()
++
++
++    } else {
++    
++    if (req.body.host) { host = req.body.host; }
++    if (req.body.user) { user = req.body.user; }
++    if (req.body.pass) { pass = req.body.pass; }
++    
++    
++    if (host != '' && user != '' && pass != '') {
++    
++	console.log('Set cookie and redirect...');
++	
++
++	var cookie = Buffer.from(user).toString('base64') + ':' + Buffer.from(pass).toString('base64');
++	console.log(cookie);
++	
++	res.cookie('session_' + host, cookie);
++	res.cookie('session_default', cookie);
++	
++	res.redirect((req.url).replace(req_host, host));
++	
++    
++    } else {
++    
++	var html = '';
++
++	html += '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></head><body>';	
++	
++	html += '<style> html, body, .container { height: 100%; } .container {   display: flex;    align-items: center;    justify-content: center; } </style>';
++
++	html += '<div align="center" id="container" class="container"><form method="POST">';
++	html += 'Host IP: <input type="text" name="host" value="' + host + '">&nbsp;';
++	html += 'User: <input type="text" name="user" value="' + user + '">&nbsp;';
++	html += 'Password: <input type="password" name="pass">&nbsp;';
++	html += '<input type="submit">';
++	html += '</form></div>';
++	
++	html += '</body></html>';
++                                                                                                                
++	res.setHeader('Content-type', 'text/html')                                                                  
++	res.end(html)   
++    
++    }
++    
++
++    }
++    
++    }
++
++    
+   }
+ }
+ 

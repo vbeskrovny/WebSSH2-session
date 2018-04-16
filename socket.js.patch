@@ -1,0 +1,17 @@
+--- ./socket.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ socket.js	2018-04-16 10:40:20.611861277 +0200
+@@ -155,7 +155,13 @@
+           console.log('WebSSH2 error' + theError)
+         }
+       }
+-      socket.emit('ssherror', 'SSH ' + myFunc + theError)
++      
++      var host = socket.request.session.ssh.host;
++      //console.log(host);
++      
++      socket.emit('ssherror', '<input type="button" onClick="logout(\''+host+'\')" value="LOGOUT: SSH ' + myFunc + theError + '">')
++      
++      
+       socket.request.session.destroy()
+       socket.disconnect(true)
+     } else {

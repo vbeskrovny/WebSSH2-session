@@ -1,0 +1,18 @@
+--- ./app.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ ./app.js	2018-04-11 20:07:05.999217742 +0200
+@@ -25,6 +25,15 @@
+ var socket = require('./socket')
+ var expressOptions = require('./expressOptions')
+ 
++
++var bodyParser = require('body-parser');
++app.use(bodyParser.json()); // support json encoded bodies
++app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
++
++
++var cookieParser = require('cookie-parser');
++app.use(cookieParser());
++
+ // express
+ app.use(compression({level: 9}))
+ app.use(session)
