@@ -1,6 +1,6 @@
 --- ./client.htm.orig	2018-03-01 03:58:59.000000000 +0100
-+++ ./client.htm	2018-04-16 11:09:52.763815966 +0200
-@@ -6,6 +6,13 @@
++++ ./client.htm	2018-04-16 11:46:24.007759940 +0200
+@@ -6,6 +6,14 @@
      html, body {background-color: #000;height: 100%;margin: 0;}.dropup-content {display: none;}
    </style>
    <link rel="stylesheet" href="/webssh2.css" />
@@ -8,6 +8,7 @@
 +  <script>
 +    function logout(h) {
 +	Cookies.remove('session_' + h);
++	Cookies.remove('session_default');
 +	location.href = '/ssh/host/' + h;
 +    }
 +  </script>
