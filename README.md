@@ -1,9 +1,10 @@
 # WebSSH2-session
 WebSSH2 per-session authentication patches
 
-Here are quick and dirty modifications for the original WebSSH2 node application to allow per-session authentication for your hosts.
+Here are quick and dirty modifications for the original WebSSH2 node application. They allows to re-request the authentication each time you do a new request for an SSH session. Useful on the jumphosts where you have to use different credentials for the different hosts.
 
-Bear in mind that I'm a network enigneer (cisco professional) and not a programmer. Therefore no obligations for the provided code.
+
+Bear in mind that I'm a network enigneer (cisco professional) and not a programmer, therefore no obligations for the provided code :)))
 
 
 How to use:
@@ -14,9 +15,12 @@ How to use:
 
 
 Features:
-- the last used username/password kept as default
-- if method is not accepted - you will be prompted to enter username/password again
+- the last used username/password kept as default and will be re-used for the new hosts
+- if authentication method is not accepted - you will be prompted to enter username/password again via "LOGOUT" button on the bottom of the console
 
 
 Tested:
 - Chrome/Firefox
+
+
+Regards
