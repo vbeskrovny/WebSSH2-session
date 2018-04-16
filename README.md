@@ -9,7 +9,7 @@ Bear in mind that I'm a network enigneer (cisco professional) and not a programm
 
 How to use:
 - app.js.patch, expressOptions.js.patch, socket.js.patch, util.js.patch files goes into server directory
-- client.html.patch and js.cookie.js files goes into client/public directory
+- client.html.patch, login.css and js.cookie.js files goes into client/public directory
 - execute the following command against every file with .patch extension: patch < ./filename.patch
 - start/restart the application
 
