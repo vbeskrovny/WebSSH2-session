@@ -1,9 +1,9 @@
---- ./app.js.orig	2018-03-01 03:58:59.000000000 +0100
-+++ ./app.js	2018-04-11 20:07:05.999217742 +0200
+--- ./app.js.orig       2018-03-01 03:58:59.000000000 +0100
++++ ./app.js    2018-04-18 11:48:57.651679154 +0200
 @@ -25,6 +25,15 @@
  var socket = require('./socket')
  var expressOptions = require('./expressOptions')
- 
+
 +
 +var bodyParser = require('body-parser');
 +app.use(bodyParser.json()); // support json encoded bodies
@@ -16,3 +16,11 @@
  // express
  app.use(compression({level: 9}))
  app.use(session)
+@@ -41,6 +50,7 @@
+   req.session.ssh = {
+     host: (validator.isIP(req.params.host + '') && req.params.host) ||
+       (validator.isFQDN(req.params.host) && req.params.host) ||
++      (req.params.host) ||
+       (/^(([a-z]|[A-Z]|[0-9]|[!^(){}\-_~])+)?\w$/.test(req.params.host) &&
+       req.params.host) || config.ssh.host,
+     port: (validator.isInt(req.query.port + '', {min: 1, max: 65535}) &&
