@@ -18,6 +18,7 @@ How to use:
 
 Features:
 - the last used username/password kept as default and will be re-used for the new hosts
+- any hostname as param is accepted now (I am using custom FQDN scheme, therefore validator was not accepting it before)
 - if authentication method is not accepted - you will be prompted to enter username/password again via "LOGOUT" button on the bottom of the console
 
 
