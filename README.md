@@ -2,6 +2,7 @@
 WebSSH2 per-session authentication patches
 
 <img src="https://raw.githubusercontent.com/vbeskrovny/WebSSH2-session/master/login.png">
+<img src="https://raw.githubusercontent.com/vbeskrovny/WebSSH2-session/master/login2.png">
 
 Here are quick and dirty modifications for the original WebSSH2 node application. They allows to re-request the authentication each time you do a new request for an SSH session. Useful on the jumphosts where you have to use different credentials for the different hosts.
 
