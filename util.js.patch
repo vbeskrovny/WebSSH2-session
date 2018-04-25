@@ -1,5 +1,5 @@
--- ./util.js.orig      2018-03-01 03:58:59.000000000 +0100
-+++ ./util.js   2018-04-16 20:08:23.802989826 +0200
+--- util.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ util.js	2018-04-16 20:08:23.802989826 +0200
 @@ -15,10 +15,135 @@
        : 'is blank'.underline.red.bold))
      next()
@@ -20,8 +20,8 @@
 +
 +
 +    if(!/^\/ssh\/host\/.+/.test(req.url)) {
-+       console.log('Skip...')
-+       next()
++	console.log('Skip...')
++	next()
 +    } else {
 +
 +
@@ -35,7 +35,7 @@
 +    //console.log(req.body.host);
 +
 +    //console.log(req.rawHeaders);
-+
++    
 +
 +    console.log(req.url);
 +
@@ -46,96 +46,95 @@
 +
 +
 +    if(/\?logout$/.test(req.url)) {
-+    if(/\?logout$/.test(req.url)) {
 +
-+       host = host.split('?')[0];
++	host = host.split('?')[0];
 +
-+       res.cookie('session_' + host, '');
-+       res.cookie('session_default', '');
++	res.cookie('session_' + host, '');
++	res.cookie('session_default', '');
++
++	
++	req.session.username = null;
++	req.session.userpassword = null;
 +
 +
-+       req.session.username = null;
-+       req.session.userpassword = null;
++	res.redirect(req.url.split('?')[0]);
 +
-+
-+       res.redirect(req.url.split('?')[0]);
-+
-+       return;
-+
++	return;
++	
 +    }
 +
 +
 +
 +    if ((session_default != '' && session_default != undefined) && (session_cookie == '' || session_cookie == undefined)) {
-+       session_cookie = session_default;
++	session_cookie = session_default;
 +    }
 +
 +
 +
 +    if (session_cookie != '' && session_cookie != undefined) {
 +
++	
++	user = Buffer.from(session_cookie.split(':')[0], 'base64');
++	pass = Buffer.from(session_cookie.split(':')[1], 'base64');
++	
++	console.log('Session user: ->' + user + '<-');
++	console.log('Session pass: ->' + pass + '<-');
 +
-+       user = Buffer.from(session_cookie.split(':')[0], 'base64');
-+       pass = Buffer.from(session_cookie.split(':')[1], 'base64');
++	req.session.username = user.toString();
++	req.session.userpassword = pass.toString();
 +
-+       console.log('Session user: ->' + user + '<-');
-+       console.log('Session pass: ->' + pass + '<-');
-+
-+       req.session.username = user.toString();
-+       req.session.userpassword = pass.toString();
-+
-+       next()
++	next()
 +
 +
 +    } else {
-+
-+
++    
 +    if (req.body.host) { host = req.body.host; }
 +    if (req.body.user) { user = req.body.user; }
 +    if (req.body.pass) { pass = req.body.pass; }
-+
-+
++    
++    
 +    if (host != '' && user != '' && pass != '') {
++    
++	console.log('Set cookie and redirect...');
++	
 +
-+       console.log('Set cookie and redirect...');
-+
-+
-+       var cookie = Buffer.from(user).toString('base64') + ':' + Buffer.from(pass).toString('base64');
-+       console.log(cookie);
-+
-+       res.cookie('session_' + host, cookie);
-+       res.cookie('session_default', cookie);
-+
-+       res.redirect((req.url).replace(req_host, host));
-+
-+
++	var cookie = Buffer.from(user).toString('base64') + ':' + Buffer.from(pass).toString('base64');
++	console.log(cookie);
++	
++	res.cookie('session_' + host, cookie);
++	res.cookie('session_default', cookie);
++	
++	res.redirect((req.url).replace(req_host, host));
++	
++    
 +    } else {
++    
++	var html = '';
 +
-+       var html = '';
-+
-+       html += '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></head><body>';
-+       html += '<link rel="stylesheet" type="text/css" href="/login.css">';
-+       html += '<div class="login-block">';
-+       html += '<form method="POST">';
-+       html += '<h1>Authentication</h1>';
-+       html += '<input type="text" name="host" value="'+host+'" placeholder="Host IP" id="host" />';
-+       html += '<input type="text" name="user" value="" placeholder="Username" id="user" />';
-+       html += '<input type="password" name="pass" value="" placeholder="Password" id="pass" />';
-+       html += '<button type="submit">Submit</button>';
-+       html += '</form>';
-+       html += '</div>';
-+       html += '</body></html>';
-+
-+       res.setHeader('Content-type', 'text/html')
-+       res.end(html)
++	html += '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></head><body>';	
++	html += '<link rel="stylesheet" type="text/css" href="/login.css">';
++	html += '<div class="login-block">';
++	html += '<form method="POST">';
++	html += '<h1>Authentication</h1>';
++	html += '<input type="text" name="host" value="'+host+'" placeholder="Host IP" id="host" />';
++	html += '<input type="text" name="user" value="" placeholder="Username" id="user" />';
++	html += '<input type="password" name="pass" value="" placeholder="Password" id="pass" />';
++	html += '<button type="submit">Submit</button>';
++	html += '</form>';
++	html += '</div>';
++	html += '</body></html>';
++                                                                                                                
++	res.setHeader('Content-type', 'text/html')                                                                  
++	res.end(html)   
++    
++    }
++    
 +
 +    }
-+
-+
++    
 +    }
 +
-+    }
-+
-+
++    
    }
  }
+ 

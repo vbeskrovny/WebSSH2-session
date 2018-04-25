@@ -1,5 +1,14 @@
---- ./socket.js.orig	2018-03-01 03:58:59.000000000 +0100
-+++ socket.js	2018-04-16 10:40:20.611861277 +0200
+--- socket.js.orig	2018-03-01 03:58:59.000000000 +0100
++++ socket.js	2018-04-25 11:03:28.762772428 +0200
+@@ -33,7 +33,7 @@
+     console.log('WebSSH2 Login: user=' + socket.request.session.username + ' from=' + socket.handshake.address + ' host=' + socket.request.session.ssh.host + ' port=' + socket.request.session.ssh.port + ' sessionID=' + socket.request.sessionID + '/' + socket.id + ' mrhsession=' + socket.request.session.ssh.mrhsession + ' allowreplay=' + socket.request.session.ssh.allowreplay + ' term=' + socket.request.session.ssh.term)
+     socket.emit('setTerminalOpts', socket.request.session.ssh.terminal)
+     socket.emit('menu', menuData)
+-    socket.emit('title', 'ssh://' + socket.request.session.ssh.host)
++    socket.emit('title', socket.request.session.ssh.host)
+     if (socket.request.session.ssh.header.background) socket.emit('headerBackground', socket.request.session.ssh.header.background)
+     if (socket.request.session.ssh.header.name) socket.emit('header', socket.request.session.ssh.header.name)
+     socket.emit('footer', 'ssh://' + socket.request.session.username + '@' + socket.request.session.ssh.host + ':' + socket.request.session.ssh.port)
 @@ -155,7 +155,13 @@
            console.log('WebSSH2 error' + theError)
          }
@@ -9,7 +18,7 @@
 +      var host = socket.request.session.ssh.host;
 +      //console.log(host);
 +      
-+      socket.emit('ssherror', '<input type="button" onClick="logout(\''+host+'\')" value="LOGOUT: SSH ' + myFunc + theError + '">')
++      socket.emit('ssherror', 'SSH: ' + myFunc + theError + ' on host ' + host)
 +      
 +      
        socket.request.session.destroy()
