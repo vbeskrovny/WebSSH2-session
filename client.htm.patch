@@ -1,6 +1,6 @@
 --- client.htm.orig	2018-03-01 03:58:59.000000000 +0100
-+++ client.htm	2018-04-25 11:18:02.042903911 +0200
-@@ -3,13 +3,31 @@
++++ client.htm	2018-04-25 11:50:09.256986382 +0200
+@@ -3,13 +3,32 @@
  <head>
    <title>WebSSH2</title>
    <style>
@@ -14,6 +14,7 @@
 +    var host;
 +    function onError(v) {
 +	//console.log(v);
++	//document.getElementById('exampleModalLabel').innerText = v;
 +	var v_ary = v.split(' ');
 +	host = v_ary[v_ary.length - 1];
 +	$('#exampleModal').modal({backdrop: 'static', keyboard: false});
@@ -34,7 +35,7 @@
      <div id="terminal-container" class="terminal"></div>
      <div id="bottomdiv">
        <div class="dropup" id="menu">
-@@ -20,6 +38,40 @@
+@@ -20,6 +39,43 @@
        <div id="status"></div>
      </div>
    </div>
@@ -45,22 +46,25 @@
 +<div class="modal hide" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 +  <div class="modal-dialog modal-dialog-centered" role="document">
 +    <div class="modal-content">
++      <!--
 +      <div class="modal-header">
-+        <h5 class="modal-title" id="exampleModalLabel">...</h5>
-+        <!--
++        <h5 class="modal-title" id="exampleModalLabel"></h5>
 +        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 +          <span aria-hidden="true">&times;</span>
 +        </button>
-+        -->
 +      </div>
-+      <div class="modal-body">
-+        ...
-+      </div>
-+      <div class="modal-footer">
-+        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-+        <button type="button" class="btn btn-primary" onClick="logout()">Logout from all sessions</button>
++      -->
++      <div class="modal-body text-center">
++        
++        <br><br>
++
++        <button type="button" class="btn btn-primary" onClick="logout()">Re-authenticate</button>
 +        <button type="button" class="btn btn-primary" onClick="window.close()">Close this window</button>
 +        <button type="button" class="btn btn-primary" onClick="window.location.reload()">Login again</button>
++
++      </div>
++      <div class="modal-footer ml-auto">
++        <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
 +      </div>
 +    </div>
 +  </div>
